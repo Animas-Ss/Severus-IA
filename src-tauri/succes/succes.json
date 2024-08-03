@@ -1,0 +1,14 @@
+[
+    {
+        "id_command": 1 ,
+        "order_commands": "ejecutar excel",
+        "command": "start excel.exe",
+        "in_commands": "manual"
+    },
+    {
+        "id_command": 2 ,
+        "order_commands": "ejecutar excel",
+        "command":  "Start-Process excel.exe",
+        "in_commands": "manual"
+    }
+]

@@ -205,11 +205,33 @@ button {
    background: rgba(106, 59, 235, 0.5);
    transition: all 1s ease-in-out;
 
-   box-shadow: 8px 6px 15px rgb(2, 2, 2), inset 15px 15px 20px rgb(255, 254, 254, .5), inset -20px -10px 30px rgb(255, 255, 255, 0.5);
+   box-shadow: inset 15px 15px 20px rgb(255, 254, 254, .5), inset -20px -10px 30px rgb(255, 255, 255, 0.5);
    backdrop-filter: blur(10px);
    animation: morph 3.75s linear infinite;
 }
 
+.btn-key{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 30px;
+  height: 30px;
+
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  
+
+  border-radius: 42% 56% 72% 28% / 42% 42% 56% 48%;
+  border: 1px solid #ffffff;
+
+  background: rgba(106, 59, 235, 0.5);
+  transition: all 1s ease-in-out;
+
+  box-shadow: inset 15px 15px 20px rgb(255, 254, 254, .5), inset -20px -10px 30px rgb(255, 255, 255, 0.5);
+  backdrop-filter: blur(10px);
+  animation: morph 3.75s linear infinite;
+}
 
 @keyframes morph{
   0%, 100%{

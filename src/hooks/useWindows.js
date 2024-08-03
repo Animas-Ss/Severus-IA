@@ -1,5 +1,5 @@
 
-import { WebviewWindow } from "@tauri-apps/api/window";
+import { WebviewWindow, appWindow } from "@tauri-apps/api/window";
 
 export const useWindows = () => {
   const createWindow = (options) => {
@@ -21,7 +21,13 @@ export const useWindows = () => {
       
     })
   };
+
+  const closeWindow = async (id) => {
+    new WebviewWindow(id).close()
+  }
+
   return {
     createWindow,
+    closeWindow
   };
 };

@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KEY</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
+        width: 100vw;
+        height: 100vh;
+        overflow: hidden;
+        border-radius: 24px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .container__modal {
+        width: 100%;
+        height: 100%;
+        /* background: rgba(223, 10, 10, 0.7); */
+        border-radius: 24px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        box-shadow: inset 15px 15px 20px rgb(255, 254, 254, 0.5),
+          inset -20px -10px 30px rgb(255, 255, 255, 0.5);
+      }
+
+      .row {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+      }
+
+      input {
+        border-radius: 8px;
+        border: 1px solid transparent;
+        padding: 0.6em 1.2em;
+        font-size: 1em;
+        font-weight: 500;
+        font-family: inherit;
+        color: #0f0f0f;
+        transition: border-color 0.25s;
+        box-shadow: 0 2px 2px rgba(0, 0, 0, 0.2);
+      }
+
+      button {
+        cursor: pointer;
+        width: 40px;
+        height: 40px;
+        outline: none;
+        border: none;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+      }
+
+      button:active {
+        border-color: #fdfdfd;
+        background-color: #e8e8e8;
+      }
+
+      input,
+      button {
+        outline: none;
+      }
+    </style>
+</head>
+<body>
+    <body data-tauri-drag-region>
+        <div class="container__modal" data-tauri-drag-region>
+          <form class="row" id="form__key">
+            <input id="input__key" type="password" placeholder="API_KEY" />
+            <button type="submit">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" color="#000000" fill="none">
+                <path d="M15.5 14.5C18.8137 14.5 21.5 11.8137 21.5 8.5C21.5 5.18629 18.8137 2.5 15.5 2.5C12.1863 2.5 9.5 5.18629 9.5 8.5C9.5 9.38041 9.68962 10.2165 10.0303 10.9697L2.5 18.5V21.5H5.5V19.5H7.5V17.5H9.5L13.0303 13.9697C13.7835 14.3104 14.6196 14.5 15.5 14.5Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                <path d="M17.5 6.5L16.5 7.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+            </button>
+          </form>
+        </div>
+    </body>
+</body>
+<script type="module">
+  
+  document.addEventListener("DOMContentLoaded", async (e) => {
+    const {invoke} = window.__TAURI__.tauri;
+    const $ = (selector) => document.querySelector(selector);
+    
+    const $form = $("#form__key");
+    const $input = $("#input__key");
+    try {
+      const api = await invoke("read_api_key")
+      if(!api){
+        alert("API KEY NO  EXISTE")
+      }
+      $input.value = api
+      
+    } catch (error) {
+      alert("Error", error);
+    }
+
+    let apiKey= "";
+    
+    const handleChange = (e) => {
+      apiKey = e.target.value;
+    };
+    
+    const handleSubmit = async (e) => {
+      e.preventDefault();
+      console.log(apiKey)
+      try {
+        const res = await invoke("save_api_key", {key: apiKey});
+        console.log(res)
+      } catch (error) {
+        console.log(error)
+      }
+      };
+
+      $form.addEventListener("submit", handleSubmit);
+      $input.addEventListener("input", handleChange);
+
+    });
+</script>
+</html>

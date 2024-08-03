@@ -3,8 +3,7 @@ import { useState, useEffect, useRef } from "react";
 const useSpeech = (options) => {
   const [isListening, setIsListening] = useState(false);
   const [transcript, setTranscript] = useState("");
-  const [asistent, setAsistent] = useState(false) // cambio de IA asistente interactua con el SO
-
+  const [asistent, setAsistent] = useState(true); // cambio de IA asistente interactua con el SO
 
   const reconnitionRef = useRef(null);
 
@@ -22,7 +21,7 @@ const useSpeech = (options) => {
     recongnition.onresult = (event) => {
       let newText = "";
       for (let i = 0; i < event.results.length; i++) {
-        newText += event.results[i][0].transcript.replace(/[.,!?]/g, "");
+        newText += event.results[i][0].transcript;
       }
 
       setTranscript((prevText) => {
@@ -30,8 +29,9 @@ const useSpeech = (options) => {
         checkForKeyword(updatedText);
         return updatedText;
       });
-      
-/*       if (text.includes("Severus asistente")) {
+
+
+      /*       if (text.includes("Severus asistente")) {
         setAsistent(true)  
       }
       
@@ -41,19 +41,18 @@ const useSpeech = (options) => {
     };
 
     const checkForKeyword = (text) => {
-      const keywordOn = 'Asistente'; // Cambia esto a la palabra clave para activar
-      const keywordOff = 'Pregunta'; // Cambia esto a la palabra clave para desactivar
-      
+      const keywordOn = "Asistente"; // Cambia esto a la palabra clave para activar
+      const keywordOff = "Pregunta"; // Cambia esto a la palabra clave para desactivar
+
       if (text.includes(keywordOn || "asistente")) {
         setAsistent(true);
-        const updatedText = text.replace(keywordOn || "asistente", '').trim();
+        const updatedText = text.replace(keywordOn || "asistente", "").trim();
         setTranscript(updatedText);
-       console.log(isListening)
+        console.log(isListening);
       } else if (text.includes(keywordOff || "pregunta")) {
         setAsistent(false);
-        const updatedText = text.replace(keywordOff || "pregunta", '').trim();
+        const updatedText = text.replace(keywordOff || "pregunta", "").trim();
         setTranscript(updatedText);
-     
       }
     };
 
@@ -85,15 +84,13 @@ const useSpeech = (options) => {
     }
   };
 
- 
- 
-
   return {
     isListening,
     transcript,
     startListening,
     stoptListening,
-    asistent
+    asistent,
+
   };
 };
 

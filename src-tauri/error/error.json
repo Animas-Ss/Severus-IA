@@ -1,0 +1,7 @@
+[
+    {
+        "created_at": "fecha",
+        "command": "comando",
+        "error": "error"
+    }
+]
