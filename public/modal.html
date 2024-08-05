@@ -80,8 +80,13 @@
       .modal__container_cards{
         width: 100%;
         height: 100%;
-        background: #e21212;
+        padding: 20px;
         position: relative;
+      }
+      .message{
+        padding: 10px;
+        color: #fff;
+        background-color: #0f0f0f;
       }
     </style>
   </head>
@@ -117,7 +122,9 @@
 
       const $form = $("#form__prompt");
       const $input = $("#input__prompt");
-
+      const $res = $("#modal__container_cards")
+      
+      console.log($res)
       const messages = [];
       let order = "";
 
@@ -132,9 +139,34 @@
 
         const response = await geminis2(messages);
 
-        messages.push({ role: "asistent", content: response.text });
-        console.log(response.text);
+        /* $res.innerText = response.text */
+        
+        messages.push({ role: "assistant", content: response.text });
+        renderedMessages()
       };
+
+      function renderedMessages(){
+        $res.innerHTML = ''; 
+        messages.forEach((message) => {
+            const messageUser = document.createElement("div");
+            messageUser.classList.add('message')
+            const roleElement = document.createElement('h3');
+            roleElement.textContent = message.role;
+            messageUser.appendChild(roleElement);
+  
+            const contentElement = document.createElement('p');
+            contentElement.textContent = message.content;
+            messageUser.appendChild(contentElement);
+  
+  
+  
+            $res.appendChild(messageUser)
+  
+        })
+      }
+
+
+      
 
       $form.addEventListener("submit", handleSubmit);
       $input.addEventListener("input", handleChange);
