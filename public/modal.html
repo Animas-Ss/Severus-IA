@@ -37,6 +37,7 @@
       }
 
       .row {
+        position: absolute;
         display: flex;
         justify-content: center;
         gap: 20px;
@@ -76,10 +77,17 @@
       button {
         outline: none;
       }
+      .modal__container_cards{
+        width: 100%;
+        height: 100%;
+        background: #e21212;
+        position: relative;
+      }
     </style>
   </head>
   <body data-tauri-drag-region>
     <div class="container__modal" data-tauri-drag-region>
+      <div class="modal__container_cards" id="modal__container_cards"></div>
       <form class="row" id="form__prompt">
         <input id="input__prompt" placeholder="Enter a name..." />
         <button type="submit">
@@ -121,6 +129,7 @@
       const handleSubmit = async (e) => {
         e.preventDefault();
         messages.push({ role: "user", content: order });
+
         const response = await geminis2(messages);
 
         messages.push({ role: "asistent", content: response.text });

@@ -29,15 +29,6 @@ const useSpeech = (options) => {
         checkForKeyword(updatedText);
         return updatedText;
       });
-
-
-      /*       if (text.includes("Severus asistente")) {
-        setAsistent(true)  
-      }
-      
-      if(text.includes("Severus preguntas")){
-        setAsistent(false)
-      } */
     };
 
     const checkForKeyword = (text) => {

@@ -210,6 +210,31 @@ button {
    animation: morph 3.75s linear infinite;
 }
 
+.btn-read-asistent{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 30px;
+  height: 30px;
+  color: white;
+
+  position: absolute;
+  top: 0;
+  right: 0;
+
+  border-radius: 42% 56% 72% 28% / 42% 42% 56% 48%;
+  border: 1px solid #f57373;
+
+
+  background: rgba(248, 47, 47, 0.5);
+  transition: all 1s ease-in-out;
+
+  box-shadow: inset 3px 3px 5px rgba(0, 0, 0, 0.5), inset -3px -3px 5px rgba(0, 0, 0, 0.5);
+  
+  backdrop-filter: blur(10px);
+  animation: morph 3.75s linear infinite;
+}
+
 .btn-key{
   display: flex;
   justify-content: center;
@@ -229,6 +254,31 @@ button {
   transition: all 1s ease-in-out;
 
   box-shadow: inset 15px 15px 20px rgb(255, 254, 254, .5), inset -20px -10px 30px rgb(255, 255, 255, 0.5);
+  backdrop-filter: blur(10px);
+  animation: morph 3.75s linear infinite;
+}
+
+.btn-key-asistent{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 30px;
+  height: 30px;
+  color: white;
+
+  position: absolute;
+  bottom: 0;
+  right: 0;
+
+  border-radius: 42% 56% 72% 28% / 42% 42% 56% 48%;
+  border: 1px solid #f57373;
+
+
+  background: rgba(248, 47, 47, 0.5);
+  transition: all 1s ease-in-out;
+
+  box-shadow: inset 3px 3px 5px rgba(0, 0, 0, 0.5), inset -3px -3px 5px rgba(0, 0, 0, 0.5);
+  
   backdrop-filter: blur(10px);
   animation: morph 3.75s linear infinite;
 }
