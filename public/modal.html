@@ -1,155 +1,222 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-    <style>
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-      }
+<html lang="es">
 
-      body {
-        font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
-        width: 100vw;
-        height: 100vh;
-        overflow: hidden;
-        border-radius: 24px;
-        border: 1px solid white;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-      }
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Severus</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-      .container__modal {
-        width: 95%;
-        height: 95vh;
-        background: rgba(0, 0, 0, 0.7);
-        border-radius: 24px;
-        display: flex;
-        justify-content: center;
-        border: 1px solid white;
-        align-items: end;
-        backdrop-filter: blur(10px);
-        padding-bottom: 20px;
-      }
+    body {
+      font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
+      width: 100vw;
+      height: 100vh;
+      overflow: hidden;
+      border-radius: 24px;
+      border: 1px solid white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 8px;
+    }
 
-      .row {
-        position: absolute;
-        display: flex;
-        justify-content: center;
-        gap: 20px;
-      }
+    .container__modal {
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.7);
+      border-radius: 16px;
+      display: flex;
+      justify-content: center;
+      border: 1px solid white;
+      align-items: end;
+      backdrop-filter: blur(10px);
+      padding-bottom: 20px;
+      overflow: hidden;
+    }
 
-      input {
+    .row {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+    }
+
+    button {
+      cursor: pointer;
+      width: 40px;
+      height: 40px;
+      outline: none;
+      border: none;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 10px;
+    }
+
+    button:active {
+      border-color: #fdfdfd;
+      background-color: #e8e8e8;
+
+    }
+
+    input,
+    button {
+      outline: none;
+    }
+
+    .form__modal {
+      display: flex;
+      height: 100vh;
+      flex-direction: column;
+      justify-content: end;
+      gap: 10px;
+      padding: 20px;
+      padding-top: 50px;
+      overflow: hidden;
+      padding-top: 50px;
+    }
+
+    .messages {
+      padding-top: 40px;
+      width: 100%;
+      max-height: 700px;
+      max-width: 400px;
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto;
+    }
+
+    .form__message {
+      width: 100%;
+      padding: 10px 0;
+      max-width: 400px;
+    }
+
+    .message__header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 0;
+    }
+
+    .form__message--title {
+      font-weight: 600;
+      color: #e8e8e8;
+    }
+
+    .form__message--text {
+      color: #e8e8e8;
+      opacity: .8;
+    }
+
+    .form__prompt {
+      width: 100%;
+      display: flex;
+      gap: 1rem;
+      margin-top: 1rem;
+
+      & input {
+        width: 100%;
+        max-width: 400px;
         border-radius: 8px;
-        border: 1px solid transparent;
+        border: 1px solid #fff;
         padding: 0.6em 1.2em;
         font-size: 1em;
         font-weight: 500;
         font-family: inherit;
-        color: #0f0f0f;
+        color: #fff;
         transition: border-color 0.25s;
         box-shadow: 0 2px 2px rgba(0, 0, 0, 0.2);
+        background: transparent;
       }
+    }
+  </style>
+</head>
 
-      button {
-        cursor: pointer;
-        width: 40px;
-        height: 40px;
-        outline: none;
-        border: none;
-        border-radius: 50%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        text-align: center;
-      }
-
-      button:active {
-        border-color: #fdfdfd;
-        background-color: #e8e8e8;
-      }
-
-      input,
-      button {
-        outline: none;
-      }
-      .modal__container_cards{
-        width: 100%;
-        height: 100%;
-        background: #e21212;
-        position: relative;
-      }
-    </style>
-  </head>
-  <body data-tauri-drag-region>
-    <div class="container__modal" data-tauri-drag-region>
-      <div class="modal__container_cards" id="modal__container_cards"></div>
-      <form class="row" id="form__prompt">
-        <input id="input__prompt" placeholder="Enter a name..." />
+<body data-tauri-drag-region>
+  <div class="container__modal" data-tauri-drag-region>
+    <div class="modal__container_cards" id="modal__container_cards"></div>
+    <form class="row form__modal" id="form__prompt">
+      <div class="messages">
+        <div class="form__message">
+          <div class="message__header">
+            <img src="./user-icon.svg" alt="" width="40">
+            <span class="form__message--title">Usted</span>
+          </div>
+          <p class="form__message--text">Lorem ipsum dolor sit amet consectetur adipisicing elit.
+            Provident reiciendis cum accusantium consequuntur perspiciatis.</p>
+        </div>
+        <div class="form__message">
+          <div class="message__header">
+            <img src="./user-icon.svg" alt="" width="40">
+            <span class="form__message--title">Severus</span>
+          </div>
+          <p class="form__message--text">Lorem ipsum dolor sit amet consectetur adipisicing elit.
+            Provident reiciendis cum accusantium consequuntur perspiciatis.</p>
+        </div>
+      </div>
+      <div class="form__prompt">
+        <input id="input__prompt" placeholder="Preguntame cualquier cosa.." />
         <button type="submit">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            width="24"
-            height="24"
-            color="#000000"
-            fill="none"
-          >
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" color="#000000"
+            fill="none">
             <path
               d="M11.922 4.79004C16.6963 3.16245 19.0834 2.34866 20.3674 3.63261C21.6513 4.91656 20.8375 7.30371 19.21 12.078L18.1016 15.3292C16.8517 18.9958 16.2267 20.8291 15.1964 20.9808C14.9195 21.0216 14.6328 20.9971 14.3587 20.9091C13.3395 20.5819 12.8007 18.6489 11.7231 14.783C11.4841 13.9255 11.3646 13.4967 11.0924 13.1692C11.0134 13.0742 10.9258 12.9866 10.8308 12.9076C10.5033 12.6354 10.0745 12.5159 9.21705 12.2769C5.35111 11.1993 3.41814 10.6605 3.0909 9.64127C3.00292 9.36724 2.97837 9.08053 3.01916 8.80355C3.17088 7.77332 5.00419 7.14834 8.6708 5.89838L11.922 4.79004Z"
-              stroke="currentColor"
-              stroke-width="1.5"
-            />
+              stroke="currentColor" stroke-width="1.5" />
           </svg>
         </button>
-      </form>
-    </div>
-  </body>
-  <script type="module">
-    import { geminis2 } from "../src/intelligence/modelo/geminis2.js";
+      </div>
+    </form>
+  </div>
+</body>
+<script type="module">
+  import { geminis2 } from "../src/intelligence/modelo/geminis2.js";
 
-    document.addEventListener("DOMContentLoaded", (e) => {
-      const $ = (selector) => document.querySelector(selector);
+  document.addEventListener("DOMContentLoaded", (e) => {
+    const $ = (selector) => document.querySelector(selector);
 
-      const $form = $("#form__prompt");
-      const $input = $("#input__prompt");
+    const $form = $("#form__prompt");
+    const $input = $("#input__prompt");
 
-      const messages = [];
-      let order = "";
+    const messages = [];
+    let order = "";
 
-      console.log(messages);
-      const handleChange = (e) => {
-        order = e.target.value;
-      };
+    console.log(messages);
+    const handleChange = (e) => {
+      order = e.target.value;
+    };
 
-      const handleSubmit = async (e) => {
-        e.preventDefault();
-        messages.push({ role: "user", content: order });
+    const handleSubmit = async (e) => {
+      e.preventDefault();
+      messages.push({ role: "user", content: order });
 
-        const response = await geminis2(messages);
+      const response = await geminis2(messages);
 
-        messages.push({ role: "asistent", content: response.text });
-        console.log(response.text);
-      };
+      messages.push({ role: "asistent", content: response.text });
+      console.log(response.text);
+    };
 
-      $form.addEventListener("submit", handleSubmit);
-      $input.addEventListener("input", handleChange);
+    $form.addEventListener("submit", handleSubmit);
+    $input.addEventListener("input", handleChange);
 
-      console.log($form);
-      console.log($input);
+    console.log($form);
+    console.log($input);
 
-      /* este pedazo de codigo es para trascribir la voz al texto value={
-          isListening
-            ? textInput +
-              (transcript.length
-                ? (textInput.length ? " " : "") + transcript
-                : "")
-            : textInput
-        } */
-    });
-  </script>
+    /* este pedazo de codigo es para trascribir la voz al texto value={
+        isListening
+          ? textInput +
+            (transcript.length
+              ? (textInput.length ? " " : "") + transcript
+              : "")
+          : textInput
+      } */
+  });
+</script>
+
 </html>
