@@ -11,23 +11,23 @@ import { useWindows } from "./hooks/useWindows";
 import { message as mes } from "@tauri-apps/api/dialog";
 
 import { TbPencilBolt } from "react-icons/tb";
-import {LuKeyRound} from "react-icons/lu"
+import { LuKeyRound } from "react-icons/lu";
 import { IoClose } from "react-icons/io5";
-
+import { Nucleo } from "./components/Nucleo/Nucleo";
 
 function App() {
   //OPTIMIZE: CAMBIAR ESTADOS POR UNO GLOBAL
   const [resCommand, setResCommand] = useState(""); //respuesta del backend a los comandos
   const [resIa, setResIa] = useState(""); //respuesta de la IA para pintar o decir
 
-  //TODO: mensajes con la IA y guarado de comandos para poder manejarlos posteriormente 
+  //TODO: mensajes con la IA y guarado de comandos para poder manejarlos posteriormente
   const [comandos, setComandos] = useState([]); // comando que se envia al backend para realizarse
   const [messages, setMessages] = useState([]);
 
   // array de peticiones y respuestas para enviar a mi modelo
   const [textInput, setTextInput] = useState("");
-  
-  //TODO: apertura y cierre de ventanas configuraciones y modales 
+
+  //TODO: apertura y cierre de ventanas configuraciones y modales
   const [closeKey, setCloseKey] = useState(false); // estado para  abrir o cerrar ventanas Key
   const [closeModal, setCloseModal] = useState(false); // estado para  abrir o cerrar ventanas Modal
   const [load, setLoad] = useState(false);
@@ -36,8 +36,6 @@ function App() {
     useSpeech({ continuous: true });
 
   const { createWindow, closeWindow, loadWindows } = useWindows();
-
-
 
   useEffect(() => {
     const handleKeyDown = (event) => {
@@ -106,7 +104,7 @@ function App() {
       await mes(response.text, { title: "Severus", type: "info" });
       setLoad(false);
     } catch (error) {
-      alert(error)
+      alert(error);
       setLoad(false);
     }
   };
@@ -189,9 +187,11 @@ function App() {
         </div>
       </div>
 
+      {/* <Nucleo/> */}
+
       <button
         disabled={loadWindows}
-        className={ asistent ? "btn-read-asistent" : "btn-read" }
+        className={asistent ? "btn-read-asistent" : "btn-read"}
         onClick={() => {
           if (closeModal) {
             closeWindow(asistent ? winAsistent.lebel : winQuest.lebel);
@@ -202,16 +202,12 @@ function App() {
           }
         }}
       >
-        {closeModal ? (
-          <IoClose/>
-        ) : (
-          <TbPencilBolt />
-        )}
+        {closeModal ? <IoClose /> : <TbPencilBolt />}
       </button>
 
       <button
         disabled={loadWindows}
-        className={ asistent ? "btn-key-asistent" : "btn-key"}
+        className={asistent ? "btn-key-asistent" : "btn-key"}
         onClick={() => {
           if (closeKey) {
             closeWindow(winKey.lebel);
@@ -222,11 +218,7 @@ function App() {
           }
         }}
       >
-        {closeKey ? (
-          <IoClose/>
-        ) : (
-        <LuKeyRound />
-        )}
+        {closeKey ? <IoClose /> : <LuKeyRound />}
       </button>
     </div>
   );
