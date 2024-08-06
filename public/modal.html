@@ -89,12 +89,13 @@
       max-width: 400px;
       display: flex;
       flex-direction: column;
+      scrollbar-width: none; 
       overflow-y: auto;
     }
 
     .form__message {
       width: 100%;
-      padding: 10px 0;
+      padding: 5px 0;
       max-width: 400px;
     }
 
@@ -106,14 +107,31 @@
     }
 
     .form__message--title {
-      font-weight: 600;
+      font-weight: 400;
       color: #e8e8e8;
     }
 
     .form__message--text {
       color: #e8e8e8;
+      font-size: 18px;
       opacity: .8;
     }
+
+    #loader {
+    display: none; /* Oculto por defecto */
+    border: 8px solid #f3f3f3; /* Color del borde */
+    border-top: 8px solid #3498db; /* Color del spinner */
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    animation: spin 1s linear infinite;
+    margin: 20px;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
 
     .form__prompt {
       width: 100%;
@@ -141,35 +159,20 @@
 
 <body data-tauri-drag-region>
   <div class="container__modal" data-tauri-drag-region>
-    <div class="modal__container_cards" id="modal__container_cards"></div>
+    <!-- <div class="modal__container_cards" id="modal__container_cards"></div> -->
     <form class="row form__modal" id="form__prompt">
-      <div class="messages">
-        <div class="form__message">
-          <div class="message__header">
-            <img src="./user-icon.svg" alt="" width="40">
-            <span class="form__message--title">Usted</span>
-          </div>
-          <p class="form__message--text">Lorem ipsum dolor sit amet consectetur adipisicing elit.
-            Provident reiciendis cum accusantium consequuntur perspiciatis.</p>
-        </div>
-        <div class="form__message">
-          <div class="message__header">
-            <img src="./user-icon.svg" alt="" width="40">
-            <span class="form__message--title">Severus</span>
-          </div>
-          <p class="form__message--text">Lorem ipsum dolor sit amet consectetur adipisicing elit.
-            Provident reiciendis cum accusantium consequuntur perspiciatis.</p>
-        </div>
+      <div class="messages" id="messages">
       </div>
       <div class="form__prompt">
         <input id="input__prompt" placeholder="Preguntame cualquier cosa.." />
-        <button type="submit">
+        <button type="submit" id="sendButton">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" color="#000000"
             fill="none">
             <path
               d="M11.922 4.79004C16.6963 3.16245 19.0834 2.34866 20.3674 3.63261C21.6513 4.91656 20.8375 7.30371 19.21 12.078L18.1016 15.3292C16.8517 18.9958 16.2267 20.8291 15.1964 20.9808C14.9195 21.0216 14.6328 20.9971 14.3587 20.9091C13.3395 20.5819 12.8007 18.6489 11.7231 14.783C11.4841 13.9255 11.3646 13.4967 11.0924 13.1692C11.0134 13.0742 10.9258 12.9866 10.8308 12.9076C10.5033 12.6354 10.0745 12.5159 9.21705 12.2769C5.35111 11.1993 3.41814 10.6605 3.0909 9.64127C3.00292 9.36724 2.97837 9.08053 3.01916 8.80355C3.17088 7.77332 5.00419 7.14834 8.6708 5.89838L11.922 4.79004Z"
               stroke="currentColor" stroke-width="1.5" />
           </svg>
+          <div id="loader" class="loader"></div>
         </button>
       </div>
     </form>
@@ -183,6 +186,19 @@
 
     const $form = $("#form__prompt");
     const $input = $("#input__prompt");
+    const $message = $('#messages')
+    const $loader = $('#loader')
+    const $btnSend = $('#sendButton')
+
+function showLoader() {
+    $loader.style.display = 'block';
+    $btnSend.disabled = true;
+}
+
+function hideLoader() {
+    $loader.style.display = 'none';
+    $btnSend.disabled = false; 
+}
 
     const messages = [];
     let order = "";
@@ -194,13 +210,53 @@
 
     const handleSubmit = async (e) => {
       e.preventDefault();
+      showLoader();
+      $input.disabled = true
       messages.push({ role: "user", content: order });
 
       const response = await geminis2(messages);
 
-      messages.push({ role: "asistent", content: response.text });
-      console.log(response.text);
+      messages.push({ role: "assistant", content: response.text });
+      
+      $input.value = ""
+      renderMessages()
+      setTimeout(() => {
+        $input.disabled = false
+        hideLoader();
+    }, 1000);
+
     };
+
+    function renderMessages(){
+      $message.innerHTML = '';
+
+      messages.forEach(message => {
+        const formMessage = document.createElement('div');
+        formMessage.classList.add('form__message');
+
+        const headMessage = document.createElement('div')
+        headMessage.classList.add('message__header')
+
+        const imgRes = document.createElement('img');
+        imgRes.src = "./user-icon.svg";
+        imgRes.width = 30;
+        headMessage.appendChild(imgRes)
+
+        const roleSpan = document.createElement('span');
+        roleSpan.classList.add('form__message--title');
+        roleSpan.textContent = message.role === "user" ? "Tu" : "Severus"
+        headMessage.appendChild(roleSpan);
+
+        const contentElement = document.createElement('p');
+        contentElement.classList.add('form__message--text');
+        contentElement.textContent = message.content;
+
+        formMessage.appendChild(headMessage)
+        formMessage.appendChild(contentElement)
+
+        $message.appendChild(formMessage)
+      })
+    }
 
     $form.addEventListener("submit", handleSubmit);
     $input.addEventListener("input", handleChange);

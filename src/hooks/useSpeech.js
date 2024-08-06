@@ -3,7 +3,7 @@ import { useState, useEffect, useRef } from "react";
 const useSpeech = (options) => {
   const [isListening, setIsListening] = useState(false);
   const [transcript, setTranscript] = useState("");
-  const [asistent, setAsistent] = useState(true); // cambio de IA asistente interactua con el SO
+  const [asistent, setAsistent] = useState(false); // cambio de IA asistente interactua con el SO
 
   const reconnitionRef = useRef(null);
 
