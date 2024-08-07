@@ -163,7 +163,7 @@ function App() {
 
   return (
     <div className="container" data-tauri-drag-region>
-      <div className="sound-container">
+      {/* <div className="sound-container">
         <Sphere />
         <div className="btn-container">
           <form
@@ -185,11 +185,11 @@ function App() {
             <div className="btn-menu-left"></div>
           </form>
         </div>
-      </div>
+      </div> */}
 
-      {/* <Nucleo/> */}
+      <Nucleo/>
 
-      <button
+{/*       <button
         disabled={loadWindows}
         className={asistent ? "btn-read-asistent" : "btn-read"}
         onClick={() => {
@@ -219,7 +219,7 @@ function App() {
         }}
       >
         {closeKey ? <IoClose /> : <LuKeyRound />}
-      </button>
+      </button> */}
     </div>
   );
 }
